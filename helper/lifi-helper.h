@@ -47,12 +47,12 @@ public:
   static void EnableLogComponents (void);
   Ptr<LiFiChannel>  GetChannel () const;
   NetDeviceContainer AssociateUserDevicesWithAP (NodeContainer c, ns3::Ptr<Node> appNode, Ptr<LiFiChannelHelper> channelHelper,Ptr<LiFiPhyHelper> phyHelper, Ptr<LiFiMacHelper> macHelper );
-  void ModifyLifiAPCache (ns3::NodeContainer nodeContainer);
-  void ConfigureUserDevicesCaches (ns3::NodeContainer nodeContainer, NodeContainer wifiapNodes,   Ipv4InterfaceContainer wifitocsmauserinterfaceContainer);
+  // void ModifyLifiAPCache (ns3::NodeContainer nodeContainer);
+  // void ConfigureUserDevicesCaches (ns3::NodeContainer nodeContainer, NodeContainer wifiapNodes,   Ipv4InterfaceContainer wifitocsmauserinterfaceContainer);
   void MarkNodeForHandoverNodes(Ptr<Node> node);
   bool HasThisNodeAttached(Ptr<Node>);
   Ptr<LiFiApMac> GetAPMacController ();
-  void UpdateUserDeviceCache (Ptr<Node> node);
+  // void UpdateUserDeviceCache (Ptr<Node> node);
   void UpdateAPCache (Ptr<LiFiTxNetDevice>);
 private:
   std::string m_filename;

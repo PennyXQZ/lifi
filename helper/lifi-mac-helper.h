@@ -33,7 +33,7 @@ class LiFiMacHelper : public Object
     Ptr<ns3::LiFiStaMac> GetUserMac (Ptr<Node> node);
 
 
-NetDeviceContainer CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper,Ptr<NetDevice> ccnetdevice);    
+NetDeviceContainer CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper);    
 NetDeviceContainer CreateUserDeviceMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy);
   protected:
     ObjectFactory m_mac; ///< MAC object factory

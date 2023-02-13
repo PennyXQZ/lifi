@@ -277,53 +277,53 @@ Ptr<PointToPointNetDevice> LiFiApMac::GetPointerToP2PNetDevice ()
   return 0;
 }
 
-void LiFiApMac::SetCCMacAddress (Address address)
-{
-  m_cc_address = address;
-}
+// void LiFiApMac::SetCCMacAddress (Address address)
+// {
+//   m_cc_address = address;
+// }
 
-Address LiFiApMac::GetCCMacAddress (void)
-{
-  return m_cc_address;
-}
+// Address LiFiApMac::GetCCMacAddress (void)
+// {
+//   return m_cc_address;
+// }
 
-void LiFiApMac::SendRecordToCentralizedControllers (uint32_t index)
-{
+// void LiFiApMac::SendRecordToCentralizedControllers (uint32_t index)
+// {
 
-  for (size_t i = 0; i < m_slotPtrs_vector.size(); i++)
-  {
-    Ptr<LiFiUserDeviceInfos> udinfos = m_slotPtrs_vector[i];
-    Ptr<PointToPointNetDevice> p2pnetdev = GetPointerToP2PNetDevice();
-    MeasurementReport measurementReport;
-    measurementReport.SetDeviceID(udinfos->GetDeviceID());
-    std::vector<double> snrV;
-    snrV.push_back(udinfos->GetSinrLevel());
-    measurementReport.SetSNR(snrV);
-    Ptr<Packet> packet = Create<Packet> ();
-    packet->AddPacketTag(measurementReport);
-    uint16_t protoc = 0x800;
-    p2pnetdev->Send(packet,GetCCMacAddress(),protoc);
-    //std::cout<<"p2pnetdev p2pnetdev  packet "<<packet<<" p2pnetdev "<<p2pnetdev<<std::endl;
-  }
+//   for (size_t i = 0; i < m_slotPtrs_vector.size(); i++)
+//   {
+//     Ptr<LiFiUserDeviceInfos> udinfos = m_slotPtrs_vector[i];
+//     Ptr<PointToPointNetDevice> p2pnetdev = GetPointerToP2PNetDevice();
+//     MeasurementReport measurementReport;
+//     measurementReport.SetDeviceID(udinfos->GetDeviceID());
+//     std::vector<double> snrV;
+//     snrV.push_back(udinfos->GetSinrLevel());
+//     measurementReport.SetSNR(snrV);
+//     Ptr<Packet> packet = Create<Packet> ();
+//     packet->AddPacketTag(measurementReport);
+//     uint16_t protoc = 0x800;
+//     p2pnetdev->Send(packet,GetCCMacAddress(),protoc);
+//     //std::cout<<"p2pnetdev p2pnetdev  packet "<<packet<<" p2pnetdev "<<p2pnetdev<<std::endl;
+//   }
 
-  for (size_t i = 0; i < m_lastepoch_slotPtrs_vector.size(); i++)
-  {
+//   for (size_t i = 0; i < m_lastepoch_slotPtrs_vector.size(); i++)
+//   {
 
-    Ptr<LiFiUserDeviceInfos> udinfos = m_lastepoch_slotPtrs_vector[i];
-    Ptr<PointToPointNetDevice> p2pnetdev = GetPointerToP2PNetDevice();
-    MeasurementReport measurementReport;
-    measurementReport.SetDeviceID(udinfos->GetDeviceID());
-    std::vector<double> snrV;
-    snrV.push_back(0);
-    measurementReport.SetSNR(snrV);
-    Ptr<Packet> packet = Create<Packet> ();
-    packet->AddPacketTag(measurementReport);
-    uint16_t protoc = 0x800;
-    p2pnetdev->Send(packet,GetCCMacAddress(),protoc);
+//     Ptr<LiFiUserDeviceInfos> udinfos = m_lastepoch_slotPtrs_vector[i];
+//     Ptr<PointToPointNetDevice> p2pnetdev = GetPointerToP2PNetDevice();
+//     MeasurementReport measurementReport;
+//     measurementReport.SetDeviceID(udinfos->GetDeviceID());
+//     std::vector<double> snrV;
+//     snrV.push_back(0);
+//     measurementReport.SetSNR(snrV);
+//     Ptr<Packet> packet = Create<Packet> ();
+//     packet->AddPacketTag(measurementReport);
+//     uint16_t protoc = 0x800;
+//     p2pnetdev->Send(packet,GetCCMacAddress(),protoc);
   
-  }
+//   }
   
-}
+// }
 
 void LiFiApMac::SendSlotControlPackets ()
 {
@@ -402,11 +402,11 @@ void LiFiApMac::DistributeSlots()
   if (m_slotPtrs_vector.size() == 0)
   {
     ns3::Simulator::Schedule (MilliSeconds(30), &LiFiApMac::StartSuperSessions, this);
-    Simulator::ScheduleNow (&LiFiApMac::SendRecordToCentralizedControllers,this,0);
+    // Simulator::ScheduleNow (&LiFiApMac::SendRecordToCentralizedControllers,this,0);
     return;
   }
   
-  Simulator::ScheduleNow (&LiFiApMac::SendRecordToCentralizedControllers,this,0);
+  // Simulator::ScheduleNow (&LiFiApMac::SendRecordToCentralizedControllers,this,0);
 
   transmissionsVector.clear();
   m_totalSlotsAllowed = 0;

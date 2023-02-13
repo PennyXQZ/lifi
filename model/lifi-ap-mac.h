@@ -125,7 +125,7 @@ public:
    */
   void SetChannel (Ptr<LiFiChannel> c);
 
-  void SetCCMacAddress (Address);
+  // void SetCCMacAddress (Address);
 
   void NotifyTxStartNow (Time duration);
   Time CalculateTxTime (Ptr<const Packet> packet);
@@ -159,12 +159,12 @@ public:
   void  DistributeSlots();
   virtual void SetMacLow(ns3::Ptr<LiFiMacLow>);
   virtual ns3::Ptr<LiFiMacLow> GetMacLow();
-  Address GetCCMacAddress (void);
+  // Address GetCCMacAddress (void);
 
   void SetControlGuardSlotTime (uint32_t time);
   Time GetControlGuardSlotTime ();
   void ResetDataStructures();
-  void SendRecordToCentralizedControllers (uint32_t index);
+  // void SendRecordToCentralizedControllers (uint32_t index);
   Ptr<PointToPointNetDevice> GetPointerToP2PNetDevice ();
   
   ///from central mac as modification classes
@@ -223,7 +223,7 @@ private:
   uint32_t max_slots;
   uint32_t m_super_frame_number;
   DataRate m_bps;
-  Address m_cc_address;
+  // Address m_cc_address;
 
 };
 

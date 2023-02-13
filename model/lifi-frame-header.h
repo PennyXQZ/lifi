@@ -3,7 +3,7 @@
 #define LIFI_FRAME_HEADER_H
 
 #include "ns3/object.h"
-#include "ns3/tdma-mac.h"
+// #include "ns3/tdma-mac.h"
 #include <string>
 #include "ns3/address.h"
 #include <iostream>

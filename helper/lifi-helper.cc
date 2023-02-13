@@ -47,8 +47,8 @@ NetDeviceContainer LiFiHelper::AssociateUserDevicesWithAP (NodeContainer c, ns3:
   std::vector<Ptr<LiFiUserDeviceInfos> > recvVector;
   m_controller = macHelper->GetApMac(appNode);
   NetDeviceContainer netDeviceContainer; 
-  //NS_ASSERT (m_controller != 0);
-  Ptr<LiFiNetDevice> appDevice = ns3::DynamicCast < LiFiNetDevice> (appNode->GetDevice(1));
+  NS_ASSERT (m_controller != 0);
+  Ptr<LiFiNetDevice> appDevice = ns3::DynamicCast < LiFiNetDevice> (appNode->GetDevice(0)); //should be ->GetDevice(1), because it is the #1 device in the node
   int ii=0;
   for (NodeContainer::Iterator i = c.Begin (); i != c.End (); ++i)
     {
@@ -73,101 +73,101 @@ NetDeviceContainer LiFiHelper::AssociateUserDevicesWithAP (NodeContainer c, ns3:
   return netDeviceContainer;
 }
 
-void LiFiHelper::ModifyLifiAPCache (ns3::NodeContainer nodeContainer)
-{
-  //for (std::list<ns3::NodeContainer>::const_iterator i = lifiNetworkNodesContainerList.begin(); i != lifiNetworkNodesContainerList.end(); ++i)
-  //{
-	 //ns3::NodeContainer nodeContainer = *i;
-   //if (nodeContainer.GetN() == 1) continue;
+// void LiFiHelper::ModifyLifiAPCache (ns3::NodeContainer nodeContainer)
+// {
+//   //for (std::list<ns3::NodeContainer>::const_iterator i = lifiNetworkNodesContainerList.begin(); i != lifiNetworkNodesContainerList.end(); ++i)
+//   //{
+// 	 //ns3::NodeContainer nodeContainer = *i;
+//    //if (nodeContainer.GetN() == 1) continue;
 
-	 Ptr <Node> node                        = nodeContainer.Get(0);
-	 Ptr<Ipv4> ipv4A                        = node->GetObject<Ipv4> ();//node->GetDevice(2)
-	 Ptr<LiFiTxNetDevice> txNetDev = ns3::DynamicCast <LiFiTxNetDevice> (node->GetDevice(1));
+// 	 Ptr <Node> node                        = nodeContainer.Get(0);
+// 	 Ptr<Ipv4> ipv4A                        = node->GetObject<Ipv4> ();//node->GetDevice(2)
+// 	 Ptr<LiFiTxNetDevice> txNetDev = ns3::DynamicCast <LiFiTxNetDevice> (node->GetDevice(1));
 
-	 int32_t interfaceIndex1                 = ipv4A->GetInterfaceForDevice (txNetDev);
-	 Ptr<Ipv4L3Protocol> nodeIpv4L3Protocol = node->GetObject<Ipv4L3Protocol> ();
-	 Ptr<Ipv4Interface> ipv4Interface       = nodeIpv4L3Protocol->GetInterface (interfaceIndex1);
-	 Ptr<ArpCache> lifiApArpCache           = ipv4Interface->GetArpCache ();
-	 lifiApArpCache->Flush();
+// 	 int32_t interfaceIndex1                 = ipv4A->GetInterfaceForDevice (txNetDev);
+// 	 Ptr<Ipv4L3Protocol> nodeIpv4L3Protocol = node->GetObject<Ipv4L3Protocol> ();
+// 	 Ptr<Ipv4Interface> ipv4Interface       = nodeIpv4L3Protocol->GetInterface (interfaceIndex1);
+// 	 Ptr<ArpCache> lifiApArpCache           = ipv4Interface->GetArpCache ();
+// 	 lifiApArpCache->Flush();
 
-	 for (uint32_t j = 1; j < (nodeContainer.GetN()); j++)
-	 {
-    // std::cout<<"create ap device cache "<<nodeContainer.GetN()<<std::endl;
-		 ns3::Ptr<Node> udNodes = nodeContainer.Get(j);
-		 Ptr<LiFiRxNetDevice> rxNetDev = ns3::DynamicCast <LiFiRxNetDevice> (udNodes->GetDevice(0));
+// 	 for (uint32_t j = 1; j < (nodeContainer.GetN()); j++)
+// 	 {
+//     // std::cout<<"create ap device cache "<<nodeContainer.GetN()<<std::endl;
+// 		 ns3::Ptr<Node> udNodes = nodeContainer.Get(j);
+// 		 Ptr<LiFiRxNetDevice> rxNetDev = ns3::DynamicCast <LiFiRxNetDevice> (udNodes->GetDevice(0));
 
- 		 Ptr<Ipv4> ud_ipv4A        = udNodes->GetObject<Ipv4> ();
-	 	 int32_t interfaceIndex = ud_ipv4A->GetInterfaceForDevice (rxNetDev);
-		 Ipv4InterfaceAddress 	interfaceAddress = ud_ipv4A->GetAddress (interfaceIndex,0);
+//  		 Ptr<Ipv4> ud_ipv4A        = udNodes->GetObject<Ipv4> ();
+// 	 	 int32_t interfaceIndex = ud_ipv4A->GetInterfaceForDevice (rxNetDev);
+// 		 Ipv4InterfaceAddress 	interfaceAddress = ud_ipv4A->GetAddress (interfaceIndex,0);
 
-		 ArpCache::Entry *  cacheEntry = lifiApArpCache->Add (interfaceAddress.GetLocal());
-		 cacheEntry->SetMacAddress(rxNetDev->GetAddress());
-     cacheEntry->MarkPermanent();
-	 }
-   std::cout<<"\n";
-	 ipv4Interface->SetArpCache (lifiApArpCache);
- // }
-}
+// 		 ArpCache::Entry *  cacheEntry = lifiApArpCache->Add (interfaceAddress.GetLocal());
+// 		 cacheEntry->SetMacAddress(rxNetDev->GetAddress());
+//      cacheEntry->MarkPermanent();
+// 	 }
+//    std::cout<<"\n";
+// 	 ipv4Interface->SetArpCache (lifiApArpCache);
+//  // }
+// }
 
-void LiFiHelper::ConfigureUserDevicesCaches (ns3::NodeContainer nodeContainer, NodeContainer wifiapNodes,   Ipv4InterfaceContainer wifitocsmauserinterfaceContainer)
-{
-  //for (std::list<ns3::NodeContainer>::const_iterator i = lifiNetworkNodesContainerList.begin(); i != lifiNetworkNodesContainerList.end(); ++i)
-  //{
-	//ns3::NodeContainer        	 = *i;
-  //if (nodeContainer.GetN() <= 1) continue;
+// void LiFiHelper::ConfigureUserDevicesCaches (ns3::NodeContainer nodeContainer, NodeContainer wifiapNodes,   Ipv4InterfaceContainer wifitocsmauserinterfaceContainer)
+// {
+//   //for (std::list<ns3::NodeContainer>::const_iterator i = lifiNetworkNodesContainerList.begin(); i != lifiNetworkNodesContainerList.end(); ++i)
+//   //{
+// 	//ns3::NodeContainer        	 = *i;
+//   //if (nodeContainer.GetN() <= 1) continue;
 
-	ns3::Ptr<Node>     apNode 	       	     = nodeContainer.Get(0);
-	Ptr<LiFiTxNetDevice> aptxNetDev          = ns3::DynamicCast <LiFiTxNetDevice> (apNode->GetDevice(1));
+// 	ns3::Ptr<Node>     apNode 	       	     = nodeContainer.Get(0);
+// 	Ptr<LiFiTxNetDevice> aptxNetDev          = ns3::DynamicCast <LiFiTxNetDevice> (apNode->GetDevice(1));
 
-	int32_t apNetDeviceInterfaceIndex        = apNode->GetObject<Ipv4> ()->GetInterfaceForDevice (aptxNetDev);
-	Ptr<Ipv4L3Protocol> apnodeIpv4L3Protocol = apNode->GetObject<Ipv4L3Protocol> ();
-	Ptr<Ipv4Interface> apipv4Interface       = apnodeIpv4L3Protocol->GetInterface (apNetDeviceInterfaceIndex);
-//  std::cout<<"create user device cache "<<nodeContainer.GetN()<<std::endl;
+// 	int32_t apNetDeviceInterfaceIndex        = apNode->GetObject<Ipv4> ()->GetInterfaceForDevice (aptxNetDev);
+// 	Ptr<Ipv4L3Protocol> apnodeIpv4L3Protocol = apNode->GetObject<Ipv4L3Protocol> ();
+// 	Ptr<Ipv4Interface> apipv4Interface       = apnodeIpv4L3Protocol->GetInterface (apNetDeviceInterfaceIndex);
+// //  std::cout<<"create user device cache "<<nodeContainer.GetN()<<std::endl;
 
-	for (uint32_t j = 1; j <nodeContainer.GetN(); ++j)
-	{
-      Ptr <Node> node                        = nodeContainer.Get(j);
-      Ptr<Ipv4> ipv4A                        = node->GetObject<Ipv4> ();
-      Ptr<LiFiRxNetDevice> rxNetDev          = ns3::DynamicCast <LiFiRxNetDevice> (node->GetDevice(0));
-      int32_t interfaceIndex                 = ipv4A->GetInterfaceForDevice (rxNetDev);
-      Ptr<Ipv4L3Protocol> nodeIpv4L3Protocol = node->GetObject<Ipv4L3Protocol> ();
-      Ptr<Ipv4Interface> ipv4Interface       = nodeIpv4L3Protocol->GetInterface (interfaceIndex);
-      Ptr<ArpCache> userDeviceArpCache       = ipv4Interface->GetArpCache ();
-      userDeviceArpCache->Flush();
-      ArpCache::Entry *  cacheEntry          = userDeviceArpCache->Add (wifitocsmauserinterfaceContainer.GetAddress(0,0));
-      Ptr<WifiNetDevice> wifiApNetDevice;
-      for (uint32_t i = 0; i <(wifiapNodes.Get(0)->GetNDevices()); i++) {
-          wifiApNetDevice =  ns3::DynamicCast < WifiNetDevice> (wifiapNodes.Get(0)->GetDevice(i));
-          if (wifiApNetDevice != 0) break;
-      }
+// 	for (uint32_t j = 1; j <nodeContainer.GetN(); ++j)
+// 	{
+//       Ptr <Node> node                        = nodeContainer.Get(j);
+//       Ptr<Ipv4> ipv4A                        = node->GetObject<Ipv4> ();
+//       Ptr<LiFiRxNetDevice> rxNetDev          = ns3::DynamicCast <LiFiRxNetDevice> (node->GetDevice(0));
+//       int32_t interfaceIndex                 = ipv4A->GetInterfaceForDevice (rxNetDev);
+//       Ptr<Ipv4L3Protocol> nodeIpv4L3Protocol = node->GetObject<Ipv4L3Protocol> ();
+//       Ptr<Ipv4Interface> ipv4Interface       = nodeIpv4L3Protocol->GetInterface (interfaceIndex);
+//       Ptr<ArpCache> userDeviceArpCache       = ipv4Interface->GetArpCache ();
+//       userDeviceArpCache->Flush();
+//       ArpCache::Entry *  cacheEntry          = userDeviceArpCache->Add (wifitocsmauserinterfaceContainer.GetAddress(0,0));
+//       Ptr<WifiNetDevice> wifiApNetDevice;
+//       for (uint32_t i = 0; i <(wifiapNodes.Get(0)->GetNDevices()); i++) {
+//           wifiApNetDevice =  ns3::DynamicCast < WifiNetDevice> (wifiapNodes.Get(0)->GetDevice(i));
+//           if (wifiApNetDevice != 0) break;
+//       }
 
-      cacheEntry->SetMacAddress(wifiApNetDevice->GetAddress());
-      Ptr<WifiApNetDevice> wifiStaNetDev      = ns3::DynamicCast <WifiApNetDevice> (node->GetDevice(1));
-      wifiStaNetDev->SetGatewayMacAddress (wifiApNetDevice->GetAddress());
-      wifiStaNetDev->SetPeerNetDevice (rxNetDev);
-      ArpCache::Entry *  cacheEntry1          = userDeviceArpCache->Add (apipv4Interface->GetAddress(0).GetLocal());
-      cacheEntry1->SetMacAddress (aptxNetDev->GetAddress());
-      ipv4Interface->SetArpCache (userDeviceArpCache);
-  }
-    std::cout<<"\n";
-}
+//       cacheEntry->SetMacAddress(wifiApNetDevice->GetAddress());
+//       Ptr<WifiApNetDevice> wifiStaNetDev      = ns3::DynamicCast <WifiApNetDevice> (node->GetDevice(1));
+//       wifiStaNetDev->SetGatewayMacAddress (wifiApNetDevice->GetAddress());
+//       wifiStaNetDev->SetPeerNetDevice (rxNetDev);
+//       ArpCache::Entry *  cacheEntry1          = userDeviceArpCache->Add (apipv4Interface->GetAddress(0).GetLocal());
+//       cacheEntry1->SetMacAddress (aptxNetDev->GetAddress());
+//       ipv4Interface->SetArpCache (userDeviceArpCache);
+//   }
+//     std::cout<<"\n";
+// }
 
-void LiFiHelper::UpdateUserDeviceCache (Ptr<Node> node)
-{
-  std::cout<<"At time "<<Simulator::Now().GetSeconds()<<" void LiFiHelper::UpdateUserDeviceCache (Ptr<Node> node "<<node->GetId()<<std::endl;
-  Ptr<Ipv4> ipv4A                        = node->GetObject<Ipv4> ();
-  //Ptr<LiFiRxNetDevice> rxNetDev          = ns3::DynamicCast <LiFiRxNetDevice> (node->GetDevice(0));
-  //int32_t interfaceIndex                 = ipv4A->GetInterfaceForDevice (rxNetDev);
-  Ptr<Ipv4L3Protocol> nodeIpv4L3Protocol = node->GetObject<Ipv4L3Protocol> ();
-  Ptr<Ipv4Interface> ipv4Interface       = nodeIpv4L3Protocol->GetInterface (1);
-  Ptr<ArpCache> userDeviceArpCache       = ipv4Interface->GetArpCache ();
-  userDeviceArpCache->Flush();
-  Ptr<WifiApNetDevice> wifiApNetDevice          = ns3::DynamicCast <WifiApNetDevice> (node->GetDevice(1));
-  wifiApNetDevice->SetPeerNetDevice(0);
-  Ptr<Ipv4Interface> ipv4Interface1       = nodeIpv4L3Protocol->GetInterface (2);
-  Ptr<ArpCache> wifiuserDeviceArpCache    = ipv4Interface1->GetArpCache ();
-  wifiuserDeviceArpCache->Flush();
-}
+// void LiFiHelper::UpdateUserDeviceCache (Ptr<Node> node)
+// {
+//   std::cout<<"At time "<<Simulator::Now().GetSeconds()<<" void LiFiHelper::UpdateUserDeviceCache (Ptr<Node> node "<<node->GetId()<<std::endl;
+//   Ptr<Ipv4> ipv4A                        = node->GetObject<Ipv4> ();
+//   //Ptr<LiFiRxNetDevice> rxNetDev          = ns3::DynamicCast <LiFiRxNetDevice> (node->GetDevice(0));
+//   //int32_t interfaceIndex                 = ipv4A->GetInterfaceForDevice (rxNetDev);
+//   Ptr<Ipv4L3Protocol> nodeIpv4L3Protocol = node->GetObject<Ipv4L3Protocol> ();
+//   Ptr<Ipv4Interface> ipv4Interface       = nodeIpv4L3Protocol->GetInterface (1);
+//   Ptr<ArpCache> userDeviceArpCache       = ipv4Interface->GetArpCache ();
+//   userDeviceArpCache->Flush();
+//   Ptr<WifiApNetDevice> wifiApNetDevice          = ns3::DynamicCast <WifiApNetDevice> (node->GetDevice(1));
+//   wifiApNetDevice->SetPeerNetDevice(0);
+//   Ptr<Ipv4Interface> ipv4Interface1       = nodeIpv4L3Protocol->GetInterface (2);
+//   Ptr<ArpCache> wifiuserDeviceArpCache    = ipv4Interface1->GetArpCache ();
+//   wifiuserDeviceArpCache->Flush();
+// }
  
 void LiFiHelper::UpdateAPCache (Ptr<LiFiTxNetDevice> apNetDevice)
 {

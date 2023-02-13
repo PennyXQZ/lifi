@@ -82,12 +82,37 @@ LiFiMacHelper::~LiFiMacHelper ()
     return NetDeviceContainer(device);
 }*/
 
-NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper,Ptr<NetDevice> ccnetdevice)
+// NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper,Ptr<NetDevice> ccnetdevice)
+// {
+//     NS_LOG_FUNCTION (this);
+//     Ptr<PointToPointNetDevice> netdevice = ns3::DynamicCast<PointToPointNetDevice> (ccnetdevice);
+//     Ptr<LiFiApMac> app_mac = CreateObject<LiFiApMac> ();
+//     app_mac-> SetCCMacAddress (netdevice->GetAddress());
+//     NetDeviceContainer devices;
+//     Ptr<LiFiChannel> channel = channelHelper->GetChannel(node->GetId());
+//     lifiPhy->SetChannel(channel);
+//     ns3::Ptr<LiFiNetDevice> device = CreateObject<LiFiNetDevice> ();
+//     app_mac->SetAddress (Mac48Address::Allocate ());
+//     lifiPhy->SetDevice(device);
+//     app_mac->SetNode(node);
+//     Ptr<LiFiMacLow> LiFiMacLow = app_mac->GetMacLow();
+//     lifiPhy->SetMacLow(LiFiMacLow);
+//     LiFiMacLow->SetPhy(lifiPhy);
+//     node->AddDevice (device);
+//     device->SetMac(app_mac);
+//     std::cout<<"NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper,Ptr<NetDevice> ccnetdevice): "<<node->GetId()<<std::endl;
+//     m_remoteStationManager->AddMac(app_mac,app_mac->GetAddress());
+//     app_mac->SetRemoteStationManager(m_remoteStationManager);
+//     m_lifi_ap_netDevicesMap.insert (std::pair<uint32_t,Ptr<LiFiApMac> >(node->GetId(), app_mac)); 
+//     return NetDeviceContainer(device);
+// }
+
+NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper)
 {
     NS_LOG_FUNCTION (this);
-    Ptr<PointToPointNetDevice> netdevice = ns3::DynamicCast<PointToPointNetDevice> (ccnetdevice);
+    // Ptr<PointToPointNetDevice> netdevice = ns3::DynamicCast<PointToPointNetDevice> (ccnetdevice);
     Ptr<LiFiApMac> app_mac = CreateObject<LiFiApMac> ();
-    app_mac-> SetCCMacAddress (netdevice->GetAddress());
+    // app_mac-> SetCCMacAddress (netdevice->GetAddress());
     NetDeviceContainer devices;
     Ptr<LiFiChannel> channel = channelHelper->GetChannel(node->GetId());
     lifiPhy->SetChannel(channel);
@@ -100,12 +125,13 @@ NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy>
     LiFiMacLow->SetPhy(lifiPhy);
     node->AddDevice (device);
     device->SetMac(app_mac);
-    std::cout<<"NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper,Ptr<NetDevice> ccnetdevice): "<<node->GetId()<<std::endl;
+    // std::cout<<"NetDeviceContainer LiFiMacHelper::CreateAPMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy, Ptr<LiFiChannelHelper> channelHelper,Ptr<NetDevice> ccnetdevice): "<<node->GetId()<<std::endl;
     m_remoteStationManager->AddMac(app_mac,app_mac->GetAddress());
     app_mac->SetRemoteStationManager(m_remoteStationManager);
     m_lifi_ap_netDevicesMap.insert (std::pair<uint32_t,Ptr<LiFiApMac> >(node->GetId(), app_mac)); 
     return NetDeviceContainer(device);
 }
+
 
 NetDeviceContainer LiFiMacHelper::CreateUserDeviceMac (Ptr<Node> node, ns3::Ptr<LiFiPhy> lifiPhy)
 {
@@ -157,4 +183,3 @@ NetDeviceContainer LiFiMacHelper::CreateUserDeviceMac (Ptr<Node> node, ns3::Ptr<
 }*/
 
 }
-
